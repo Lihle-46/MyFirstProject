@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results - Financial Data Visualization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 30px;
+            background: linear-gradient(120deg, #ff9a9e 0%, #fad0c4 25%, #fbc2eb 50%, #a1c4fd 75%, #c2ffd8 100%);
+            min-height: 100vh;
+        }
+        h1 {
+            color: #2c3e50;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+        }
+        .stats, .months { margin-top: 20px; }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+        li {
+            margin: 12px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+        a { text-decoration: none; color: #3498db; }
+        a:hover { text-decoration: underline; }
+        img { max-width: 600px; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); }
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #ff3399, #9900cc, #3399ff, #33cc33, #ffff00, #ff9900, #ff0000);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        .graph-container { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 20px; }
+        .graph-box { flex: 1 1 300px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>📊 Financial Data Results</h1>
+
+    <div class="stats">
+        <h2>Summary Statistics</h2>
+        <ul>
+            <li><b>Highest Income Month:</b> {{ stats.highest_income_month }}</li>
+            <li><b>Lowest Income Month:</b> {{ stats.lowest_income_month }}</li>
+            <li><b>Highest Expense Month:</b> {{ stats.highest_expense_month }}</li>
+            <li><b>Lowest Expense Month:</b> {{ stats.lowest_expense_month }}</li>
+            <li><b>Average Income:</b> {{ stats.average_income }}</li>
+            <li><b>Average Expense:</b> {{ stats.average_expense }}</li>
+        </ul>
+    </div>
+
+    <div class="graph-container">
+        {% if selected_graph == 'line' %}
+        <div class="graph-box">
+            <h2>Line Graph</h2>
+            <img src="/static/{{ graph_paths.line }}" alt="Line Graph">
+        </div>
+        {% elif selected_graph == 'bar' %}
+        <div class="graph-box">
+            <h2>Bar Graph</h2>
+            <img src="/static/{{ graph_paths.bar }}" alt="Bar Graph">
+        </div>
+        {% elif selected_graph == 'pie' %}
+        <div class="graph-box">
+            <h2>Pie Chart</h2>
+            <img src="/static/{{ graph_paths.pie }}" alt="Pie Chart">
+        </div>
+        {% elif selected_graph == 'hist' %}
+        <div class="graph-box">
+            <h2>Histogram</h2>
+            <img src="/static/{{ graph_paths.hist }}" alt="Histogram">
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="months">
+        <h2>📅 Monthly Details</h2>
+        <ul>
+            {% for m in months %}
+            <li><a href="{{ url_for('details', month=m) }}">{{ m }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a class="btn" href="{{ url_for('index') }}">⬅ Upload Another File</a>
+</body>
+</html>

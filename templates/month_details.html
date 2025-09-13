@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Details for {{ month }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 30px;
+            background: linear-gradient(120deg, #ff9a9e 0%, #fad0c4 25%, #fbc2eb 50%, #a1c4fd 75%, #c2ffd8 100%);
+            min-height: 100vh;
+        }
+        h1 {
+            color: #2c3e50;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            max-width: 350px;
+            margin-bottom: 30px;
+        }
+        li {
+            margin: 12px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #ff3399, #9900cc, #3399ff, #33cc33, #ffff00, #ff9900, #ff0000);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+    <h1>Details for {{ month }}</h1>
+    <ul>
+        <li>Income: {{ data.Income }}</li>
+        <li>Expense: {{ data.Expense }}</li>
+    </ul>
+    <a class="btn" href="{{ url_for('index') }}">⬅ Back to Results</a>
+</body>
+</html>

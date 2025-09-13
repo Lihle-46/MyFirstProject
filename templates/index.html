@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Financial Data Visualization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 30px;
+            background: linear-gradient(120deg, #ff9a9e 0%, #fad0c4 25%, #fbc2eb 50%, #a1c4fd 75%, #c2ffd8 100%);
+            min-height: 100vh;
+        }
+        h1 {
+            color: #2c3e50;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        .graph-select {
+            margin: 20px 0;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 20px 0 10px 0;
+            max-width: 600px;
+        }
+        .graph-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            color: black;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .graph-btn.selected, .graph-btn:hover {
+            background: linear-gradient(90deg, #ff3399, #9900cc, #3399ff, #33cc33, #ffff00, #ff9900, #ff0000);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            color: black;
+        }
+        form {
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 20px;
+            max-width: 600px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        button[type="submit"] {
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #9900cc, #ff3399);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #ff3399, #9900cc, #3399ff, #33cc33, #ffff00, #ff9900, #ff0000);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+    </style>
+    <script>
+        function selectGraph(graph) {
+            document.getElementById('selected_graph').value = graph;
+            var btns = document.getElementsByClassName('graph-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+            document.getElementById('btn-' + graph).classList.add('selected');
+        }
+    </script>
+</head>
+<body>
+    <h1>📊 Financial Data Visualization</h1>
+
+    <div class="graph-select">
+        <label><b>Select Graph Type:</b></label><br>
+        <button type="button" class="graph-btn selected" id="btn-line" onclick="selectGraph('line')">Line Graph</button>
+        <button type="button" class="graph-btn" id="btn-bar" onclick="selectGraph('bar')">Bar Graph</button>
+        <button type="button" class="graph-btn" id="btn-pie" onclick="selectGraph('pie')">Pie Chart</button>
+        <button type="button" class="graph-btn" id="btn-hist" onclick="selectGraph('hist')">Histogram</button>
+    </div>
+
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx,.xls" required>
+        <input type="hidden" name="selected_graph" id="selected_graph" value="line">
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if stats %}
+    <h2>Summary Statistics</h2>
+    <ul>
+        <li>Highest Income Month: {{ stats.highest_income_month }}</li>
+        <li>Lowest Income Month: {{ stats.lowest_income_month }}</li>
+        <li>Highest Expense Month: {{ stats.highest_expense_month }}</li>
+        <li>Lowest Expense Month: {{ stats.lowest_expense_month }}</li>
+        <li>Average Income: {{ stats.average_income }}</li>
+        <li>Average Expense: {{ stats.average_expense }}</li>
+    </ul>
+
+    <h2>Trend Graph</h2>
+    <img src="/{{ graph_path }}" alt="Graph">
+
+    <h2>📅 Monthly Details</h2>
+    <ul>
+        {% for m in months %}
+        <li><a href="{{ url_for('details', month=m) }}">{{ m }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
